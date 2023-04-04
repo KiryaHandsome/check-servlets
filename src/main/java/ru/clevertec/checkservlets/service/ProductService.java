@@ -18,8 +18,8 @@ public class ProductService implements ShopService<Product> {
     }
 
     @Override
-    public Product create(Product product) {
-        return productDao.create(product);
+    public void create(Product product) {
+        productDao.create(product);
     }
 
     @Override
@@ -34,8 +34,7 @@ public class ProductService implements ShopService<Product> {
 
     @Override
     public Product update(int id, Product object) {
-        object.setId(id);
-        return productDao.create(object);
+        return productDao.update(id, object);
     }
 
 

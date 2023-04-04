@@ -8,8 +8,7 @@ import java.util.List;
 public class ProductDao implements CrudDao<Product> {
 
     @Override
-    public Product create(Product entity) {
-        return null;
+    public void create(Product entity) {
     }
 
     @Override

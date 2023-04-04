@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface CrudDao<T> {
 
-    T create(T entity);
+    void create(T entity);
 
     T read(int id);
 

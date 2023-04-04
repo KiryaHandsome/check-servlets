@@ -10,10 +10,6 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    junitVersion = '5.9.1'
-}
-
 sourceCompatibility = '11'
 targetCompatibility = '11'
 
@@ -23,14 +19,15 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     compileOnly 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+    implementation 'javax.inject:javax.inject:1'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:${junitVersion}'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:${junitVersion}'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
 
-    implementation 'javax.inject:javax.inject:1'
+    implementation 'org.postgresql:postgresql:42.6.0'
 }
 
 test {

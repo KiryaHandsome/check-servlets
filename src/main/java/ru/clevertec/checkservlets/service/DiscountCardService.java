@@ -18,8 +18,8 @@ public class DiscountCardService implements ShopService<DiscountCard> {
     }
 
     @Override
-    public DiscountCard create(DiscountCard product) {
-        return discountCardDao.create(product);
+    public void create(DiscountCard product) {
+        discountCardDao.create(product);
     }
 
     @Override
@@ -34,8 +34,7 @@ public class DiscountCardService implements ShopService<DiscountCard> {
 
     @Override
     public DiscountCard update(int id, DiscountCard object) {
-        object.setId(id);
-        return discountCardDao.create(object);
+        return discountCardDao.update(id, object);
     }
 
 

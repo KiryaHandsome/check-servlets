@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ShopService<T> {
 
-    T create(T product);
+    void create(T product);
 
     T find(int id);
 
