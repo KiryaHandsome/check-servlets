@@ -4,7 +4,6 @@ import ru.clevertec.checkservlets.dao.api.CrudDao;
 import ru.clevertec.checkservlets.model.DiscountCard;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,10 +13,6 @@ import java.util.List;
 
 public class DiscountCardDao implements CrudDao<DiscountCard> {
 
-    private static final String JDBC_URL = "jdbc:postgresql://localhost:5432/postgres";
-    private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "postgres";
-
     private static final String INSERT_INTO_QUERY = "INSERT INTO discount_card(discount) VALUES(?);";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM discount_card WHERE id=?;";
     private static final String SELECT_ALL_QUERY = "SELECT * FROM discount_card;";
@@ -25,28 +20,9 @@ public class DiscountCardDao implements CrudDao<DiscountCard> {
     private static final String DELETE_QUERY = "DELETE FROM discount_card WHERE id=?;";
 
 
-    static {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-
-    private static Connection getConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
-
     @Override
     public void create(DiscountCard entity) {
-        try (Connection connection = getConnection();
+        try (Connection connection = DaoDataSource.getConnection();
              PreparedStatement creatPs = connection.prepareStatement(INSERT_INTO_QUERY)) {
             creatPs.setFloat(1, entity.getDiscount());
             creatPs.executeUpdate();
@@ -58,7 +34,7 @@ public class DiscountCardDao implements CrudDao<DiscountCard> {
     @Override
     public DiscountCard read(int id) {
         DiscountCard discountCard = null;
-        try (Connection connection = getConnection();
+        try (Connection connection = DaoDataSource.getConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
@@ -73,7 +49,7 @@ public class DiscountCardDao implements CrudDao<DiscountCard> {
     @Override
     public List<DiscountCard> readAll() {
         List<DiscountCard> discountCards = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = DaoDataSource.getConnection();
              Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_QUERY);
             while (resultSet.next()) {
@@ -88,7 +64,7 @@ public class DiscountCardDao implements CrudDao<DiscountCard> {
     @Override
     public DiscountCard update(int id, DiscountCard newEntity) {
         DiscountCard discountCard = null;
-        try (Connection connection = getConnection();
+        try (Connection connection = DaoDataSource.getConnection();
              PreparedStatement updatePs = connection.prepareStatement(UPDATE_QUERY);
              PreparedStatement selectPs = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
             //update row
@@ -108,7 +84,7 @@ public class DiscountCardDao implements CrudDao<DiscountCard> {
 
     @Override
     public void delete(int id) {
-        try (Connection connection = getConnection();
+        try (Connection connection = DaoDataSource.getConnection();
              PreparedStatement ps = connection.prepareStatement(DELETE_QUERY)) {
             ps.setInt(1, id);
             ps.executeUpdate();
