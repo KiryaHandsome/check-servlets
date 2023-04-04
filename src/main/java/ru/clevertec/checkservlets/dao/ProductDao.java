@@ -1,7 +1,7 @@
-package ru.clevertec.dao;
+package ru.clevertec.checkservlets.dao;
 
-import ru.clevertec.dao.api.CrudDao;
-import ru.clevertec.model.Product;
+import ru.clevertec.checkservlets.model.Product;
+import ru.clevertec.checkservlets.dao.api.CrudDao;
 
 import java.util.List;
 

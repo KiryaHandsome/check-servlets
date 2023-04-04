@@ -1,16 +1,18 @@
-package ru.clevertec.service;
+package ru.clevertec.checkservlets.service;
 
-import ru.clevertec.dao.DiscountCardDao;
-import ru.clevertec.dao.api.CrudDao;
-import ru.clevertec.model.DiscountCard;
-import ru.clevertec.service.api.ShopService;
+import ru.clevertec.checkservlets.dao.DiscountCardDao;
+import ru.clevertec.checkservlets.dao.api.CrudDao;
+import ru.clevertec.checkservlets.model.DiscountCard;
+import ru.clevertec.checkservlets.service.api.ShopService;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class DiscountCardService implements ShopService<DiscountCard> {
 
     private final CrudDao<DiscountCard> discountCardDao;
 
+    @Inject
     public DiscountCardService(DiscountCardDao discountCardDao) {
         this.discountCardDao = discountCardDao;
     }

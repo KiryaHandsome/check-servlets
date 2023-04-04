@@ -1,4 +1,4 @@
-package ru.clevertec.dao.api;
+package ru.clevertec.checkservlets.dao.api;
 
 import java.util.List;
 

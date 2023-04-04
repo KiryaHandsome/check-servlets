@@ -1,4 +1,4 @@
-package ru.clevertec.model;
+package ru.clevertec.checkservlets.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

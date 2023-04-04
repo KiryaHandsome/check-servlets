@@ -1,4 +1,4 @@
-package ru.clevertec.service.api;
+package ru.clevertec.checkservlets.service.api;
 
 import java.util.List;
 
