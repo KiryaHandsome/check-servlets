@@ -28,8 +28,8 @@ public class DiscountCardService implements ShopService<DiscountCard> {
     }
 
     @Override
-    public List<DiscountCard> findAll() {
-        return discountCardDao.readAll();
+    public List<DiscountCard> findAll(int pageNumber, int...pageSizeArgs) {
+        return discountCardDao.readAll(pageNumber, pageSizeArgs);
     }
 
     @Override

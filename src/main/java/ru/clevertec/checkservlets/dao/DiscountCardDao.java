@@ -13,9 +13,11 @@ import java.util.List;
 
 public class DiscountCardDao implements CrudDao<DiscountCard> {
 
+    private static final int DEFAULT_PAGE_SIZE = 20;
+
     private static final String INSERT_INTO_QUERY = "INSERT INTO discount_card(discount) VALUES(?);";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM discount_card WHERE id=?;";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM discount_card;";
+    private static final String SELECT_PAGE_QUERY = "SELECT * FROM discount_card LIMIT ? OFFSET ?;";
     private static final String UPDATE_QUERY = "UPDATE discount_card SET discount=? WHERE id=?;";
     private static final String DELETE_QUERY = "DELETE FROM discount_card WHERE id=?;";
 
@@ -47,11 +49,18 @@ public class DiscountCardDao implements CrudDao<DiscountCard> {
     }
 
     @Override
-    public List<DiscountCard> readAll() {
+    public List<DiscountCard> readAll(int pageNumber, int... pageSizeArgs) {
+        int pageSize = DEFAULT_PAGE_SIZE;
+        if (pageSizeArgs.length != 0) {
+            pageSize = pageSizeArgs[0];
+        }
+        int offset = (pageNumber - 1) * pageSize;
         List<DiscountCard> discountCards = new ArrayList<>();
         try (Connection connection = DaoDataSource.getConnection();
-             Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SELECT_ALL_QUERY);
+             PreparedStatement ps = connection.prepareStatement(SELECT_PAGE_QUERY)) {
+            ps.setInt(1, pageSize);
+            ps.setInt(2, offset);
+            ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 discountCards.add(new DiscountCard(resultSet));
             }

@@ -27,7 +27,7 @@ class ProductDaoTest {
 
     @Test
     void checkReadAll() {
-        System.out.println(productDao.readAll());
+        System.out.println(productDao.readAll(3));
     }
 
     @Test
@@ -35,7 +35,7 @@ class ProductDaoTest {
         Product product = Product.builder()
                 .price(7181.87)
                 .name("Bread")
-                .build();;
+                .build();
         System.out.println(productDao.update(1, product));
     }
 

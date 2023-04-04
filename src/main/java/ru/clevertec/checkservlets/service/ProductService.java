@@ -28,8 +28,8 @@ public class ProductService implements ShopService<Product> {
     }
 
     @Override
-    public List<Product> findAll() {
-        return productDao.readAll();
+    public List<Product> findAll(int pageNumber, int...pageSizeArgs) {
+        return productDao.readAll(pageNumber, pageSizeArgs);
     }
 
     @Override

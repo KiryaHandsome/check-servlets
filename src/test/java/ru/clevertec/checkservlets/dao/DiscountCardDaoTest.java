@@ -22,7 +22,7 @@ class DiscountCardDaoTest {
 
     @Test
     void checkReadAll() {
-        System.out.println(discountCardDao.readAll());
+        System.out.println(discountCardDao.readAll(1,10));
     }
 
     @Test
