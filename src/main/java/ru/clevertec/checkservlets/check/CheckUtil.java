@@ -1,12 +1,13 @@
 package ru.clevertec.checkservlets.check;
 
-import org.apache.commons.lang3.StringUtils;
 import ru.clevertec.checkservlets.model.Product;
 
+import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CheckUtil {
@@ -41,15 +42,6 @@ public class CheckUtil {
         return (int) Math.log10(num) + 1;
     }
 
-    public static String getSpacesToPlaceInCenter(int checkWidth, String s) {
-        int count = (checkWidth - s.length()) / 2;
-        return StringUtils.repeat(' ', count);
-    }
-
-    public static String getDelimiter(int checkWidth) {
-        return StringUtils.repeat("*", checkWidth) + '\n';
-    }
-
     public static double getPromotionalPrice(Product product, int quantity) {
         return product.getPrice() * quantity * (product.isPromotional() && (quantity > 5) ? 0.9 : 1);
     }
@@ -65,4 +57,32 @@ public class CheckUtil {
                 .toArray(String[]::new);
     }
 
+    /**
+     * if value of returned map equals to 0, key - discount card id
+     * Arguments should be given in format 'id-qty ... card-id'
+     *
+     * @return map: key - id, value - quantity
+     */
+    public static Map<Integer, Integer> parseArguments(String... args) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (String arg : args) {
+            String[] values = arg.split("-");
+            if (values.length != 2) {
+                throw new InvalidParameterException("Invalid argument in command line.");
+            }
+            if ("card".equalsIgnoreCase(values[0])) {
+                Integer cardId = Integer.parseInt(values[1]);
+                map.put(cardId, 0);
+            } else {
+                int productId = Integer.parseInt(values[0]);
+                int quantity = Integer.parseInt(values[1]);
+                if (productId <= 0 || quantity <= 0) {
+                    throw new InvalidParameterException("Id and quantity must be greater than 0.");
+                }
+                int previousQuantity = map.getOrDefault(productId, 0);
+                map.put(productId, previousQuantity + quantity);  //case when map has this product already
+            }
+        }
+        return map;
+    }
 }

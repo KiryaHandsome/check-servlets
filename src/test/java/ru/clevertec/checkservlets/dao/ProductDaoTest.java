@@ -27,7 +27,7 @@ class ProductDaoTest {
 
     @Test
     void checkReadAll() {
-        System.out.println(productDao.readAll(3));
+        System.out.println(productDao.readAll(1, 2));
     }
 
     @Test

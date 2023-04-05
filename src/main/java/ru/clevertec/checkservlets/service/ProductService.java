@@ -5,16 +5,22 @@ import ru.clevertec.checkservlets.dao.api.CrudDao;
 import ru.clevertec.checkservlets.model.Product;
 import ru.clevertec.checkservlets.service.api.ShopService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 public class ProductService implements ShopService<Product> {
 
     private final CrudDao<Product> productDao;
+    private static ProductService instance;
 
-    @Inject
-    public ProductService(ProductDao discountCardDao) {
-        this.productDao = discountCardDao;
+    public ProductService() {
+        this.productDao = ProductDao.getInstance();
+    }
+
+    public static ProductService getInstance() {
+        if(instance == null) {
+            instance = new ProductService();
+        }
+        return instance;
     }
 
     @Override
@@ -28,8 +34,13 @@ public class ProductService implements ShopService<Product> {
     }
 
     @Override
-    public List<Product> findAll(int pageNumber, int...pageSizeArgs) {
-        return productDao.readAll(pageNumber, pageSizeArgs);
+    public List<Product> findAll(int page, int limit) {
+        return productDao.readAll(page, limit);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return productDao.readAll();
     }
 
     @Override

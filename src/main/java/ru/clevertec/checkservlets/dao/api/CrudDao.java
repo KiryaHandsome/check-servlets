@@ -8,7 +8,9 @@ public interface CrudDao<T> {
 
     T read(int id);
 
-    List<T> readAll(int pageNumber, int...pageSizeArgs);
+    List<T> readAll(int page, int limit);
+
+    List<T> readAll();
 
     T update(int id, T newEntity);
 

@@ -12,6 +12,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
+import org.apache.commons.lang3.StringUtils;
 import ru.clevertec.checkservlets.check.CheckUtil;
 import ru.clevertec.checkservlets.model.DiscountCard;
 import ru.clevertec.checkservlets.model.Product;
@@ -26,7 +27,7 @@ import java.util.Map;
 public class CheckPdfBuilder {
 
     private static final int PADDING = 5;
-    private static final String templatePath = "src/main/resources/pdf/Clevertec_template.pdf";
+    private static final String templatePath = "pdf/Clevertec_template.pdf";
     private static final String outputPath = "data/check.pdf";
 
     private double totalCost;
@@ -49,7 +50,7 @@ public class CheckPdfBuilder {
             e.printStackTrace();
             return null;
         }
-        document.add(new Paragraph("\n".repeat(PADDING)));
+        document.add(new Paragraph(StringUtils.repeat('\n', PADDING)));
 
         List<Cell> headerCells = createHeaderCells();
         Table productsTable = createProductsTable(products);
@@ -67,7 +68,7 @@ public class CheckPdfBuilder {
     }
 
     /**
-     * Shape table with information from map.
+     * Shapes table with information from map.
      *
      * @return table with products info for check
      */

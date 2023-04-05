@@ -8,7 +8,9 @@ public interface ShopService<T> {
 
     T find(int id);
 
-    List<T> findAll(int pageNumber, int...pageSizeArgs);
+    List<T> findAll(int page, int limit);
+
+    List<T> findAll();
 
     T update(int id, T object);
 

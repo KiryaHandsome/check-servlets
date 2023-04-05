@@ -13,14 +13,21 @@ import java.util.List;
 
 public class DiscountCardDao implements CrudDao<DiscountCard> {
 
-    private static final int DEFAULT_PAGE_SIZE = 20;
-
     private static final String INSERT_INTO_QUERY = "INSERT INTO discount_card(discount) VALUES(?);";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM discount_card WHERE id=?;";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM discount_card;";
     private static final String SELECT_PAGE_QUERY = "SELECT * FROM discount_card LIMIT ? OFFSET ?;";
     private static final String UPDATE_QUERY = "UPDATE discount_card SET discount=? WHERE id=?;";
     private static final String DELETE_QUERY = "DELETE FROM discount_card WHERE id=?;";
 
+    private static DiscountCardDao instance;
+
+    public static DiscountCardDao getInstance() {
+        if (instance == null) {
+            instance = new DiscountCardDao();
+        }
+        return instance;
+    }
 
     @Override
     public void create(DiscountCard entity) {
@@ -49,18 +56,29 @@ public class DiscountCardDao implements CrudDao<DiscountCard> {
     }
 
     @Override
-    public List<DiscountCard> readAll(int pageNumber, int... pageSizeArgs) {
-        int pageSize = DEFAULT_PAGE_SIZE;
-        if (pageSizeArgs.length != 0) {
-            pageSize = pageSizeArgs[0];
-        }
-        int offset = (pageNumber - 1) * pageSize;
+    public List<DiscountCard> readAll(int page, int limit) {
+        int offset = (page - 1) * limit;
         List<DiscountCard> discountCards = new ArrayList<>();
         try (Connection connection = DaoDataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(SELECT_PAGE_QUERY)) {
-            ps.setInt(1, pageSize);
+             PreparedStatement ps = connection.prepareStatement(SELECT_ALL_QUERY)) {
+            ps.setInt(1, limit);
             ps.setInt(2, offset);
             ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                discountCards.add(new DiscountCard(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return discountCards;
+    }
+
+    @Override
+    public List<DiscountCard> readAll() {
+        List<DiscountCard> discountCards = new ArrayList<>();
+        try (Connection connection = DaoDataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(SELECT_ALL_QUERY);
             while (resultSet.next()) {
                 discountCards.add(new DiscountCard(resultSet));
             }
