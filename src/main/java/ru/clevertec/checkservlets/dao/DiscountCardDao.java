@@ -60,7 +60,7 @@ public class DiscountCardDao implements CrudDao<DiscountCard> {
         int offset = (page - 1) * limit;
         List<DiscountCard> discountCards = new ArrayList<>();
         try (Connection connection = DaoDataSource.getConnection();
-             PreparedStatement ps = connection.prepareStatement(SELECT_ALL_QUERY)) {
+             PreparedStatement ps = connection.prepareStatement(SELECT_PAGE_QUERY)) {
             ps.setInt(1, limit);
             ps.setInt(2, offset);
             ResultSet resultSet = ps.executeQuery();

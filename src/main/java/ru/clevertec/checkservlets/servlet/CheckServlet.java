@@ -20,7 +20,8 @@ import java.util.Map;
 public class CheckServlet extends HttpServlet {
 
     /**
-     * Handles HTTP GET requests for getting check in pdf format.<br/>
+     * Handles HTTP GET requests for getting check in pdf format.
+     * <br/>
      * Arguments should be in next format: <code>idOfProduct-quantity&...&card-idOfDiscountCard<code/>
      */
     @Override
