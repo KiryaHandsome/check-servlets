@@ -1,7 +1,6 @@
 package ru.clevertec.checkservlets.dao;
 
 import ru.clevertec.checkservlets.dao.api.CrudDao;
-import ru.clevertec.checkservlets.model.DiscountCard;
 import ru.clevertec.checkservlets.model.Product;
 
 import java.sql.Connection;
@@ -14,12 +13,12 @@ import java.util.List;
 
 public class ProductDao implements CrudDao<Product> {
 
-    private static final String INSERT_INTO_QUERY = "INSERT INTO product(name, price, is_promotional) VALUES(?,?,?);";
-    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM product WHERE id=?;";
-    private static final String SELECT_PAGE_QUERY = "SELECT * FROM product LIMIT ? OFFSET ?;";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM product;";
-    private static final String UPDATE_QUERY = "UPDATE product SET name=?, price=?, is_promotional=? WHERE id=?;";
-    private static final String DELETE_QUERY = "DELETE FROM product WHERE id=?;";
+    private static final String INSERT_INTO_QUERY = "INSERT INTO clevertec_shop.product(name, price, is_promotional) VALUES(?,?,?);";
+    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM clevertec_shop.product WHERE id=?;";
+    private static final String SELECT_PAGE_QUERY = "SELECT * FROM clevertec_shop.product LIMIT ? OFFSET ?;";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM clevertec_shop.product;";
+    private static final String UPDATE_QUERY = "UPDATE clevertec_shop.product SET name=?, price=?, is_promotional=? WHERE id=?;";
+    private static final String DELETE_QUERY = "DELETE FROM clevertec_shop.product WHERE id=?;";
 
     private static ProductDao instance;
 

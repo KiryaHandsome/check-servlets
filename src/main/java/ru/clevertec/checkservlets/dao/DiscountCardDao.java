@@ -13,12 +13,12 @@ import java.util.List;
 
 public class DiscountCardDao implements CrudDao<DiscountCard> {
 
-    private static final String INSERT_INTO_QUERY = "INSERT INTO discount_card(discount) VALUES(?);";
-    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM discount_card WHERE id=?;";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM discount_card;";
-    private static final String SELECT_PAGE_QUERY = "SELECT * FROM discount_card LIMIT ? OFFSET ?;";
-    private static final String UPDATE_QUERY = "UPDATE discount_card SET discount=? WHERE id=?;";
-    private static final String DELETE_QUERY = "DELETE FROM discount_card WHERE id=?;";
+    private static final String INSERT_INTO_QUERY = "INSERT INTO clevertec_shop.discount_card(discount) VALUES(?);";
+    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM clevertec_shop.discount_card WHERE id=?;";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM clevertec_shop.discount_card;";
+    private static final String SELECT_PAGE_QUERY = "SELECT * FROM clevertec_shop.discount_card LIMIT ? OFFSET ?;";
+    private static final String UPDATE_QUERY = "UPDATE clevertec_shop.discount_card SET discount=? WHERE id=?;";
+    private static final String DELETE_QUERY = "DELETE FROM clevertec_shop.discount_card WHERE id=?;";
 
     private static DiscountCardDao instance;
 

@@ -92,7 +92,7 @@ public class CrudServlet<T extends Identifiable> extends HttpServlet {
     /**
      * Handles HTTP PUT requests for updating entities in database.
      * <br/>
-     * Request body must contain json new representation of entity.
+     * Request body must contain json as new representation of entity.
      */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {

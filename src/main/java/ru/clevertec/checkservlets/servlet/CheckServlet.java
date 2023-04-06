@@ -39,6 +39,7 @@ public class CheckServlet extends HttpServlet {
             Check check = CheckGenerator.generateCheck(info);
             CheckPdfBuilder pdfBuilder = new CheckPdfBuilder();
             String filePath = pdfBuilder.buildCheck(check.getProducts(), check.getDiscountCard());
+
             byte[] content = Files.readAllBytes(Path.of(filePath));
             response.setContentType("application/pdf");
             response.setContentLength(content.length);
