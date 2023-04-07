@@ -17,15 +17,15 @@ public class ProductService implements ShopService<Product> {
     }
 
     public static ProductService getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ProductService();
         }
         return instance;
     }
 
     @Override
-    public void create(Product product) {
-        productDao.create(product);
+    public Integer create(Product product) {
+        return productDao.create(product);
     }
 
     @Override
@@ -44,10 +44,9 @@ public class ProductService implements ShopService<Product> {
     }
 
     @Override
-    public Product update(int id, Product object) {
-        return productDao.update(id, object);
+    public Product update(Product object) {
+        return productDao.update(object);
     }
-
 
     public void delete(int id) {
         productDao.delete(id);

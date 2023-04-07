@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ShopService<T> {
 
-    void create(T product);
+    Integer create(T product);
 
     T find(int id);
 
@@ -12,7 +12,7 @@ public interface ShopService<T> {
 
     List<T> findAll();
 
-    T update(int id, T object);
+    T update(T object);
 
-    public void delete(int id);
+    void delete(int id);
 }

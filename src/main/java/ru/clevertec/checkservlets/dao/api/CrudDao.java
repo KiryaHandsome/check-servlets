@@ -8,8 +8,9 @@ public interface CrudDao<T> {
      * Creates new entity in database.
      *
      * @param entity new entity
+     * @return
      */
-    void create(T entity);
+    Integer create(T entity);
 
     /**
      * Gets entity from database by id.
@@ -35,15 +36,14 @@ public interface CrudDao<T> {
     List<T> readAll();
 
     /**
-     * Updates entity in database by id.
+     * Updates row of newEntity.getId() number in database to entity.
      *
-     * @param id        id of entity to update
-     * @param newEntity updated entity
+     * @param newEntity entity with id of updatable entity
      */
-    T update(int id, T newEntity);
+    T update(T newEntity);
 
     /**
-     * Deletes entity from database by id.
+     * Deletes entity from database by id.<br/>
      *
      * @param id id of entity to delete
      */
