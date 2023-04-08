@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ServletUtil {
 
@@ -16,7 +17,7 @@ public class ServletUtil {
         StringBuilder buffer = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
-        while ((line = reader.readLine()) != null) {
+        while (Objects.nonNull(line = reader.readLine())) {
             buffer.append(line);
         }
         return buffer.toString();

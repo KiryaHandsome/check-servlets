@@ -6,6 +6,7 @@ import ru.clevertec.checkservlets.model.DiscountCard;
 import ru.clevertec.checkservlets.service.api.ShopService;
 
 import java.util.List;
+import java.util.Objects;
 
 public class DiscountCardService implements ShopService<DiscountCard> {
 
@@ -17,7 +18,7 @@ public class DiscountCardService implements ShopService<DiscountCard> {
     }
 
     public static DiscountCardService getInstance() {
-        if(instance == null) {
+        if(Objects.isNull(instance)) {
             instance = new DiscountCardService();
         }
         return instance;

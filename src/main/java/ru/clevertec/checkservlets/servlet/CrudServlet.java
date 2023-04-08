@@ -65,7 +65,7 @@ public class CrudServlet<T extends Identifiable> extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Integer id = ServletUtil.retrieveIdFromUri(request.getRequestURI());
-        if (id == null) {
+        if (Objects.isNull(id)) {
             response.sendError(400, "Incorrect path. id parameter must be passed");
         } else {
             service.delete(id);

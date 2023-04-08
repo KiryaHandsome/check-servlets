@@ -8,7 +8,7 @@ public interface CrudDao<T> {
      * Creates new entity in database.
      *
      * @param entity new entity
-     * @return
+     * @return id of created entity
      */
     Integer create(T entity);
 

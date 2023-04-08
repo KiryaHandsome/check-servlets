@@ -7,6 +7,7 @@ import ru.clevertec.checkservlets.service.DiscountCardService;
 import ru.clevertec.checkservlets.service.ProductService;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class CheckGenerator {
 
@@ -24,7 +25,7 @@ public class CheckGenerator {
             int quantity = pair.getValue();
             if (quantity == 0) { //is discount card
                 DiscountCard discountCard = discountCardService.find(id);
-                if(discountCard == null) throw new RuntimeException("discount card with id " + id + " not found");
+                if(Objects.isNull(discountCard)) throw new RuntimeException("discount card with id " + id + " not found");
                 check.addDiscountCard(discountCard);
             } else {
                 Product product = productService.find(id);

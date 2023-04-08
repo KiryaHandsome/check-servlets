@@ -11,6 +11,7 @@ import ru.clevertec.checkservlets.util.PropertiesLoader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Properties;
 
 @WebListener
@@ -25,10 +26,10 @@ public class ApplicationContextListener implements ServletContextListener {
         Properties properties = PropertiesLoader.loadProperties();
         String ddlPath = properties.getProperty("ddl");
         String dmlPath = properties.getProperty("dml");
-        if (ddlPath != null) {
+        if (Objects.nonNull(ddlPath)) {
             executeSqlScript(ddlPath);
         }
-        if (dmlPath != null) {
+        if (Objects.nonNull(dmlPath)) {
             executeSqlScript(dmlPath);
         }
     }

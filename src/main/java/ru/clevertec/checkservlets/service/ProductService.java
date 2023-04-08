@@ -6,6 +6,7 @@ import ru.clevertec.checkservlets.model.Product;
 import ru.clevertec.checkservlets.service.api.ShopService;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ProductService implements ShopService<Product> {
 
@@ -17,7 +18,7 @@ public class ProductService implements ShopService<Product> {
     }
 
     public static ProductService getInstance() {
-        if (instance == null) {
+        if (Objects.isNull(instance)) {
             instance = new ProductService();
         }
         return instance;

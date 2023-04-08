@@ -2,6 +2,7 @@ package ru.clevertec.checkservlets.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Check {
 
@@ -13,7 +14,7 @@ public class Check {
     }
 
     public void addDiscountCard(DiscountCard discountCard) {
-        if(this.discountCard != null) {
+        if(Objects.nonNull(this.discountCard)) {
             throw new RuntimeException("Discount card already presented.");
         }
         this.discountCard = discountCard;

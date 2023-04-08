@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CheckPdfBuilder {
 
@@ -195,7 +196,7 @@ public class CheckPdfBuilder {
                 .setBorder(Border.NO_BORDER)
                 .add(new Paragraph(CheckUtil.DISCOUNT));
         int discount = 0;
-        if (discountCard != null) {
+        if (Objects.nonNull(discountCard)) {
             discount = (int) (discountCard.getDiscount() * 100);
             totalCost = totalCost * (1 - discountCard.getDiscount());
         }
