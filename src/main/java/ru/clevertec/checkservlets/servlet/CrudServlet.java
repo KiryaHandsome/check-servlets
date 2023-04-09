@@ -34,7 +34,6 @@ public class CrudServlet<T extends Identifiable> extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
-        response.setContentType("application/json");
 
         Integer id = ServletUtil.retrieveIdFromUri(request.getRequestURI());
         String pageParam = request.getParameter("page");
@@ -93,19 +92,25 @@ public class CrudServlet<T extends Identifiable> extends HttpServlet {
     /**
      * Handles HTTP PUT requests for updating entities in database. <br/>
      * Request body must contain json as new representation of entity.
+     * URL should contain id as last block. id - id of entity to delete.
      */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
         PrintWriter writer = response.getWriter();
-        String body = ServletUtil.readRequestBody(request);
-        Gson gson = new Gson();
-        T entity = gson.fromJson(body, persistentClass);
-        T updatedEntity = service.update(entity);
-        if (Objects.isNull(updatedEntity)) {
-            response.sendError(500, "Entity wasn't updated.");
+        Integer id = ServletUtil.retrieveIdFromUri(request.getRequestURI());
+        if (Objects.isNull(id)) {
+            response.sendError(400, "Incorrect path. id parameter must be passed");
         } else {
-            writer.write(gson.toJson(entity));
+            String body = ServletUtil.readRequestBody(request);
+            Gson gson = new Gson();
+            T entity = gson.fromJson(body, persistentClass);
+            entity.setId(id);
+            T updatedEntity = service.update(entity);
+            if (Objects.isNull(updatedEntity)) {
+                response.sendError(500, "Entity wasn't updated.");
+            } else {
+                writer.write(gson.toJson(entity));
+            }
         }
     }
 }
