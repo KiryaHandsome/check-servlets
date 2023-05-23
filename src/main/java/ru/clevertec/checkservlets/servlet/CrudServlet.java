@@ -1,12 +1,12 @@
 package ru.clevertec.checkservlets.servlet;
 
 import com.google.gson.Gson;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.clevertec.checkservlets.model.api.Identifiable;
 import ru.clevertec.checkservlets.service.api.ShopService;
+import ru.clevertec.checkservlets.util.ServletUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,10 +17,11 @@ import java.util.Objects;
 public class CrudServlet<T extends Identifiable> extends HttpServlet {
 
     protected ShopService<T> service;
-    private final Class<T> persistentClass;
+    private Class<T> persistentClass;
     private static final int DEFAULT_PAGE_SIZE = 20;
 
-    {
+    @Override
+    public void init() {
         this.persistentClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
     }
@@ -32,28 +33,28 @@ public class CrudServlet<T extends Identifiable> extends HttpServlet {
      * empty - returns all entities from database
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter writer = response.getWriter();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try (PrintWriter writer = response.getWriter()) {
+            Integer id = ServletUtil.retrieveIdFromUri(request.getRequestURI());
+            String pageParam = request.getParameter("page");
+            String limitParam = request.getParameter("limit");
 
-        Integer id = ServletUtil.retrieveIdFromUri(request.getRequestURI());
-        String pageParam = request.getParameter("page");
-        String limitParam = request.getParameter("limit");
-
-        Gson gson = new Gson();
-        if (Objects.nonNull(id)) {  // read by id case
-            T entity = service.find(id);
-            writer.write(gson.toJson(entity));
-        } else if (Objects.nonNull(pageParam)) {  // read with pagination case
-            int limit = DEFAULT_PAGE_SIZE;
-            if (limitParam != null) {
-                limit = Integer.parseInt(limitParam);
+            Gson gson = new Gson();
+            if (Objects.nonNull(id)) {  // read by id case
+                T entity = service.find(id);
+                writer.write(gson.toJson(entity));
+            } else if (Objects.nonNull(pageParam)) {  // read with pagination case
+                int limit = DEFAULT_PAGE_SIZE;
+                if (limitParam != null) {
+                    limit = Integer.parseInt(limitParam);
+                }
+                int page = Integer.parseInt(pageParam);
+                List<T> content = service.findAll(page, limit);
+                writer.write(gson.toJson(content));
+            } else {  // read all case
+                List<T> content = service.findAll();
+                writer.write(gson.toJson(content));
             }
-            int page = Integer.parseInt(pageParam);
-            List<T> content = service.findAll(page, limit);
-            writer.write(gson.toJson(content));
-        } else {  // read all case
-            List<T> content = service.findAll();
-            writer.write(gson.toJson(content));
         }
     }
 
@@ -78,7 +79,7 @@ public class CrudServlet<T extends Identifiable> extends HttpServlet {
      * Sends redirect if entity is created successfully, return 500 code otherwise.
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String body = ServletUtil.readRequestBody(request);
         T newEntity = new Gson().fromJson(body, persistentClass);
         Integer id = service.create(newEntity);
@@ -96,20 +97,21 @@ public class CrudServlet<T extends Identifiable> extends HttpServlet {
      */
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PrintWriter writer = response.getWriter();
-        Integer id = ServletUtil.retrieveIdFromUri(request.getRequestURI());
-        if (Objects.isNull(id)) {
-            response.sendError(400, "Incorrect path. id parameter must be passed");
-        } else {
-            String body = ServletUtil.readRequestBody(request);
-            Gson gson = new Gson();
-            T entity = gson.fromJson(body, persistentClass);
-            entity.setId(id);
-            T updatedEntity = service.update(entity);
-            if (Objects.isNull(updatedEntity)) {
-                response.sendError(500, "Entity wasn't updated.");
+        try (PrintWriter writer = response.getWriter()) {
+            Integer id = ServletUtil.retrieveIdFromUri(request.getRequestURI());
+            if (Objects.isNull(id)) {
+                response.sendError(400, "Incorrect path. id parameter must be passed");
             } else {
-                writer.write(gson.toJson(entity));
+                String body = ServletUtil.readRequestBody(request);
+                Gson gson = new Gson();
+                T entity = gson.fromJson(body, persistentClass);
+                entity.setId(id);
+                T updatedEntity = service.update(entity);
+                if (Objects.isNull(updatedEntity)) {
+                    response.sendError(500, "Entity wasn't updated.");
+                } else {
+                    writer.write(gson.toJson(entity));
+                }
             }
         }
     }

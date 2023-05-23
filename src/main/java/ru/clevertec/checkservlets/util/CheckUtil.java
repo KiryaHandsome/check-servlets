@@ -1,5 +1,6 @@
-package ru.clevertec.checkservlets.check;
+package ru.clevertec.checkservlets.util;
 
+import lombok.experimental.UtilityClass;
 import ru.clevertec.checkservlets.model.Product;
 
 import java.security.InvalidParameterException;
@@ -10,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+@UtilityClass
 public class CheckUtil {
 
     public static final String CASH_RECEIPT = "CASH RECEIPT";

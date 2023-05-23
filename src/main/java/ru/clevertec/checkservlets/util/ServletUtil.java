@@ -1,11 +1,13 @@
-package ru.clevertec.checkservlets.servlet;
+package ru.clevertec.checkservlets.util;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.experimental.UtilityClass;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Objects;
 
+@UtilityClass
 public class ServletUtil {
 
     /**

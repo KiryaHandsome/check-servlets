@@ -13,7 +13,7 @@ import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import org.apache.commons.lang3.StringUtils;
-import ru.clevertec.checkservlets.check.CheckUtil;
+import ru.clevertec.checkservlets.util.CheckUtil;
 import ru.clevertec.checkservlets.model.DiscountCard;
 import ru.clevertec.checkservlets.model.Product;
 

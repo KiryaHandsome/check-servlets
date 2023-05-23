@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.clevertec.checkservlets.check.CheckGenerator;
-import ru.clevertec.checkservlets.check.CheckUtil;
+import ru.clevertec.checkservlets.util.CheckUtil;
 import ru.clevertec.checkservlets.check.builder.CheckPdfBuilder;
 import ru.clevertec.checkservlets.model.Check;
 
